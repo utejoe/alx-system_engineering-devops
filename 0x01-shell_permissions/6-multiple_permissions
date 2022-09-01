@@ -1,0 +1,2 @@
+mod 753 helloi#!/bin/bash
+chmod 753 hello
