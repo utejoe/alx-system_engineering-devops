@@ -1,2 +1,2 @@
-mod 753 helloi#!/bin/bash
+#!/bin/bash
 chmod 753 hello
