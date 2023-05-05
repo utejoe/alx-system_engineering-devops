@@ -33,18 +33,19 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
-backend web-server
+#--ayeniayodeji.tech-params-begin--
+frontend ayeniayodeji.tech-http-frontend
+	bind *:80
+	http-request set-header X-Forwarded-Proto http
+	default_backend ayeniayodeji.tech-backend
+
+frontend ayeniayodeji.tech-https-frontend
+	bind *:443 ssl crt /etc/ssl/ayeniayodeji.tech/ayeniayodeji.tech.pem
+	http-request set-header X-Forwarded-Proto https
+	default_backend ayeniayodeji.tech-backend
+
+backend ayeniayodeji.tech-backend
 	balance roundrobin
-        redirect scheme https if !{ ssl_fc }
-	server 275-web-01 34.232.70.32:80 check
-	server 275-web-02 54.164.181.253:80 check
-
-frontend www-http
-	 bind *:80
-	 http-request set-header X-Forwarded-Proto http
-	 default_backend web-server
-
-frontend www-https
-	 bind *:443 ssl crt /etc/ssl/www.cheerpython.tech.pem crt /etc/ssl/lb-01.cheerpython.tech.pem
-	 http-request set-header X-Forwarded-Proto https
-	 default_backend web-server
+	server web01 34.73.0.174:80 check
+	server web02 35.196.78.105:80 check
+#--ayeniayodeji.tech-params-end--

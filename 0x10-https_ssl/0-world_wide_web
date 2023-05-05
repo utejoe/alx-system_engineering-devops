@@ -1,20 +1,18 @@
 #!/usr/bin/env bash
-# Digs info about subdomains.
+# Usage: ./1-world_wide_web <domain> <subdomain> Displays information about subdomains.
 
-DomainInfo () {
-    A_RECORD=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | grep -v 'ANSWER SECTION:')
-    REC_TYPE=$(echo "$A_RECORD" | awk '{print $4}')
-    IP=$(echo "$A_RECORD" | awk '{print $5}')
-    echo "The subdomain $2 is a $REC_TYPE record and points to $IP"
+domain_information () {
+    line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
 }
 
-if [ $# == 2 ]
+if [ "$#" == 1 ]
 then
-    DomainInfo "$1" "$2"
-elif [ $# == 1 ]
+  domain_information "$1" "www"
+  domain_information "$1" "lb-01"
+  domain_information "$1" "web-01"
+  domain_information "$1" "web-02"
+elif [ "$#" == 2 ]
 then
-    DomainInfo "$1" "www"
-    DomainInfo "$1" "lb-01"
-    DomainInfo "$1" "web-01"
-    DomainInfo "$1" "web-02"
+  domain_information "$1" "$2"
 fi
