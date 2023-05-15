@@ -1,9 +1,20 @@
 #!/usr/bin/env bash
-# Configure Nginx to run as the nginx user
+# This script configures Nginx to run as the nginx user on port 8080
 
-# Edit the Nginx configuration file
-sed -i 's/#user/user/' /etc/nginx/nginx.conf
+# Install nginx if it is not already installed
+if ! command -v nginx &> /dev/null
+then
+    apt-get update
+    apt-get install -y nginx
+fi
 
-# Restart Nginx
+# Update the nginx.conf file to run as nginx user
+sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
+
+# Restart nginx to apply the changes
 service nginx restart
+
+# Verify that nginx is running as nginx user and listening on port 8080
+ps auxff | grep ngin[x]
+nc -z 0 8080
 
