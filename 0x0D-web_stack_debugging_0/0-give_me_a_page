@@ -1,3 +1,19 @@
 #!/usr/bin/env bash
-# script to initialize server apache
-/etc/init.d/apache2 start
+# Starts Apache and outputs Hello Holberton on the Apache index page
+
+# Update package lists and install Apache
+apt-get update
+apt-get install -y apache2
+
+# Start Apache
+service apache2 start
+
+# Enable Apache to run automatically on system boot
+update-rc.d apache2 defaults
+
+# Set the content of the Apache default index page
+echo "Hello Holberton" > /var/www/html/index.html
+
+# Run Apache in the foreground so the container doesn't exit
+/usr/sbin/apache2ctl -D FOREGROUND
+
