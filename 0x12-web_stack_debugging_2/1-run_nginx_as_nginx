@@ -1,7 +1,19 @@
 #!/usr/bin/env bash
-# This script configures the container to run Nginx as nginx user
-sed -i 's/user\s*root;/user nginx;/' /etc/nginx/nginx.conf
-sed -i 's/listen\s*80;/listen 8080;/' /etc/nginx/nginx.conf
-chown -R nginx:nginx /var/lib/nginx
-nginx -t && service nginx reload
+
+# This script configures the Nginx container to run as the nginx user and listen on all active IPs on port 8080.
+
+# Stop the Nginx service.
+service nginx stop
+
+# Set the user and group for the Nginx processes.
+sed -i 's/user  nginx;/user  nginx;\n\ngroup nginx;/g' /etc/nginx/nginx.conf
+
+# Set the permissions on the Nginx directories and files.
+chown -R nginx:nginx /var/log/nginx /var/lib/nginx /var/run/nginx
+
+# Restart the Nginx service.
+service nginx start
+
+# Update the Nginx configuration to listen on all active IPs on port 8080.
+sed -i 's/listen       80;/listen       8080 default_server;/g' /etc/nginx/sites-enabled/default
 
