@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Stop Gunicorn gracefully
+echo "Stopping Gunicorn gracefully..."
+kill -HUP $(cat /path/to/gunicorn.pid)
+
+# Wait for Gunicorn to reload
+sleep 2
+
+# Check if Gunicorn is still running
+if pgrep -F /path/to/gunicorn.pid >/dev/null; then
+    echo "Gunicorn reload failed. Killing forcefully..."
+    pkill -F /path/to/gunicorn.pid
+else
+    echo "Gunicorn reloaded successfully."
+fi
+
+# Start Gunicorn again
+echo "Starting Gunicorn..."
+/path/to/gunicorn [GUNICORN_OPTIONS] [APP_MODULE]
+
