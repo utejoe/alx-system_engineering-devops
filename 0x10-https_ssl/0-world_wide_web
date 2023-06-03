@@ -13,6 +13,6 @@ fi
 for sub in "${subdomains[@]}"; do
   output=$(dig "$sub.$domain" +short)
   record_type=$(echo "$output" | awk '{print $2}')
-  destination=$(echo "$output" | awk '{print $1}')
+  destination=$(echo "$output" | awk '{print $3}')
   echo "The subdomain $sub is a $record_type record and points to $destination"
 done
