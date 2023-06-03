@@ -1,30 +1,18 @@
 #!/usr/bin/env bash
-# This script displays information about subdomains of a domain
+# Usage: ./1-world_wide_web <domain> <subdomain> Displays information about subdomains.
 
-domain="$1"
-subdomain="$2"
+domain_information () {
+    line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
+}
 
-if [ -z "$subdomain" ]; then
-  subdomains=("www" "lb-01" "web-01" "web-02")
-else
-  subdomains=("$subdomain")
+if [ "$#" == 1 ]
+then
+  domain_information "$1" "www"
+  domain_information "$1" "lb-01"
+  domain_information "$1" "web-01"
+  domain_information "$1" "web-02"
+elif [ "$#" == 2 ]
+then
+  domain_information "$1" "$2"
 fi
-
-for sub in "${subdomains[@]}"; do
-  output=$(dig "$sub.$domain" +short)
-  record_type=$(echo "$output" | awk '{print $2}')
-  destination=$(echo "$output" | awk '{print $NF}')
-  expected=""
-  case $sub in
-    www) expected="100.26.167.250" ;;
-    lb-01) expected="100.26.167.250" ;;
-    web-01) expected="35.153.192.78" ;;
-    web-02) expected="54.236.53.15" ;;
-  esac
-
-  if [ "$destination" = "$expected" ]; then
-    echo "The subdomain $sub is a $record_type record and points to $destination"
-  else
-    echo "The subdomain $sub is a $record_type record and points to $destination (expected $expected)"
-  fi
-done
