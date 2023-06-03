@@ -34,19 +34,20 @@ defaults
 	errorfile 504 /etc/haproxy/errors/504.http
 
 #--b3zaleel-alx.tech-params-begin--
-frontend ayeniayodeji.tech-http-frontend
+frontend utejoe.tech-http-frontend
 	bind *:80
 	redirect scheme https code 301 if !{ ssl_fc }
 	http-request set-header X-Forwarded-Proto http
-	default_backend ayeniayodeji.tech-backend
+	default_backend utejoe.tech-backend
 
-frontend ayeniayodeji.tech-https-frontend
-	bind *:443 ssl crt /etc/ssl/ayeniayodeji.tech/ayeniayodeji.tech.pem
-	http-request set-header X-Forwarded-Proto https
-	default_backend ayeniayodeji.tech-backend
+frontend utejoe.tech-https-frontend
+	bind *:443 ssl crt /etc/ssl/utejoe.tech/utejoe.tech.pem
+	http-request set-header X-Forwarded-Proto
+	 https
+	default_backend utejoe.tech-backend
 
-backend ayeniayodeji.tech-backend
+backend utejoe.tech-backend
 	balance roundrobin
-	server web01 34.73.0.174:80 check
-	server web02 35.196.78.105:80 check
-#--ayeniayodeji.tech-params-end--
+	server web01 35.153.192.78:80 check
+	server web02 54.236.53.15:80 check
+#--utejoe.tech-params-end--
