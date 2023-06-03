@@ -13,6 +13,18 @@ fi
 for sub in "${subdomains[@]}"; do
   output=$(dig "$sub.$domain" +short)
   record_type=$(echo "$output" | awk '{print $2}')
-  destination=$(echo "$output" | awk '{print $3}')
-  echo "The subdomain $sub is a $record_type record and points to $destination"
+  destination=$(echo "$output" | awk '{print $NF}')
+  expected=""
+  case $sub in
+    www) expected="100.26.167.250" ;;
+    lb-01) expected="100.26.167.250" ;;
+    web-01) expected="35.153.192.78" ;;
+    web-02) expected="54.236.53.15" ;;
+  esac
+
+  if [ "$destination" = "$expected" ]; then
+    echo "The subdomain $sub is a $record_type record and points to $destination"
+  else
+    echo "The subdomain $sub is a $record_type record and points to $destination (expected $expected)"
+  fi
 done
