@@ -1,7 +1,4 @@
 #!/bin/bash
-sudo apt-get -y update
-sudo apt-get -y install ufw
-sudo ufw disable
 sudo ufw default deny incoming
 sudo systemctl stop ufw
 sudo ufw allow 22/tcp
