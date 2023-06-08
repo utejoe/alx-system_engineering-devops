@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-
+# Configures HAProxy on lb-01 to distribute traffic to web-01 and web-02
+# Rest of the script...
 # Install HAProxy
 sudo apt-get update
 sudo apt-get install -y haproxy
