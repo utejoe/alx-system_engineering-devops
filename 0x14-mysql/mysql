@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!mysql -u root <<EOF
 -- This is a script to execute SQL statements as the root user.
 -- Add your SQL statements below this comment.
@@ -6,4 +7,6 @@ USE your_database_name;
 SELECT * FROM users;
 
 -- End of SQL statements.
+=======
+>>>>>>> b0bda2c61dd9aa0a3e70852aa2ea847bb99d0f9d
 sudo mysql -u root 
