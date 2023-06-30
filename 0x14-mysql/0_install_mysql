@@ -1,0 +1,22 @@
+## First go to site dev.mysql.com and copy the PGP PUBLIC KEY just immediately under the Notice section to your clipboard.
+
+## Create a new file in your terminal with a .key extension and paste the PGP PUB KEY copied to clipboard.
+
+## Then do the following
+
+$ sudo apt-key add name_of_file.key
+OK
+
+# adding it to the apt repo
+$ sudo sh -c 'echo "deb http://repo.mysql.com/apt/ubuntu bionic mysql-5.7" >> /etc/apt/sources.list.d/mysql.list'
+
+# updating the apt repo to add the url i added earlier
+$ sudo apt-get update
+
+# now check your available versions
+$ sudo apt-cache policy mysql-server
+
+# Now am installing mysql 5.7.*
+$ sudo apt-get install -f mysql-client=5.7* mysql-community-server=5.7* mysql-server=5.7* -y
+
+sudo mysql --version
